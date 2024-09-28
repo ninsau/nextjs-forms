@@ -84,91 +84,71 @@ Here's a simple example of a form with an input, textarea, and select field:
 
 import React from "react";
 import * as Yup from "yup";
-import { FormikHelpers } from "formik";
-import { FormBuilder, FieldConfig } from "nextjs-forms"; // Importing from the package
+import { FormBuilder, FieldConfig } from "nextjs-forms"; // Importing from your package
 
-// Define the form fields with correct typing
-const fields: FieldConfig[] = [
+// Field configurations
+const CONTACT_FORM_FIELDS: FieldConfig[] = [
   {
-    name: "name",
-    label: "Name",
-    componentType: "input", // Use the 'FieldType' defined in the library
-    placeholder: "Enter your name",
-    validation: Yup.string().required("Name is required"),
+    name: "fullName",
+    label: "Full Name",
+    placeholder: "Enter your full name",
+    validation: Yup.string().required("Full Name is required"),
+    componentType: "input",
+    type: "text",
   },
   {
     name: "email",
-    label: "Email",
-    componentType: "input",
-    type: "email", // Include type where necessary
+    label: "Email Address",
     placeholder: "Enter your email",
-    validation: Yup.string()
-      .email("Invalid email")
-      .required("Email is required"),
+    validation: Yup.string().email().required("Email is required"),
+    componentType: "input",
+    type: "email",
   },
   {
-    name: "description",
-    label: "Description",
-    componentType: "textarea",
-    placeholder: "Enter your description",
-    rows: 5,
-    validation: Yup.string().required("Description is required"),
-  },
-  {
-    name: "role",
-    label: "Role",
+    name: "inquiryType",
+    label: "Inquiry Type",
+    placeholder: "Select inquiry type",
+    validation: Yup.string().required("Please select an inquiry type"),
     componentType: "select",
-    options: [
-      { label: "Admin", value: "admin" },
-      { label: "User", value: "user" },
-    ],
-    validation: Yup.string().required("Role is required"),
+    options: ["General Inquiry", "Support", "Feedback"],
+  },
+  {
+    name: "message",
+    label: "Message",
+    placeholder: "Enter your message",
+    validation: Yup.string().required("Message is required"),
+    componentType: "textarea",
+    rows: 4,
   },
 ];
 
-// Define initial values for the form
+// Initial form values
 const initialValues = {
-  name: "",
+  fullName: "",
   email: "",
-  description: "",
-  emailBody: "",
-  file: null,
-  role: "",
+  inquiryType: "",
+  message: "",
 };
-
-// Define the validation schema using Yup
-const validationSchema = Yup.object({
-  name: Yup.string().required("Name is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  description: Yup.string().required("Description is required"),
-  emailBody: Yup.string().required("Email body is required"),
-  role: Yup.string().required("Role is required"),
-});
 
 // Handle form submission
-const handleSubmit = async (
-  values: typeof initialValues,
-  { setSubmitting }: FormikHelpers<typeof initialValues>
-) => {
+const handleOnSubmit = (values: any) => {
   console.log("Form submitted with values:", values);
-  setSubmitting(false); // Set submitting to false after form submission
 };
 
-const FormPage = () => {
+const ContactFormExample = () => {
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-6">Form Example</h1>
+    <div>
+      <h2>Contact Us</h2>
       <FormBuilder
-        fields={fields}
+        fields={CONTACT_FORM_FIELDS}
         initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={handleOnSubmit}
       />
     </div>
   );
 };
 
-export default FormPage;
+export default ContactFormExample;
 ```
 
 ### Props
