@@ -59,7 +59,6 @@ Import the `FormBuilder` component into your Next.js or React component:
 
 import React from "react";
 import * as Yup from "yup";
-import { FormikHelpers } from "formik";
 import { FormBuilder, FieldConfig } from "nextjs-forms"; // Importing from the package
 import "nextjs-forms/dist/index.css"; // Import default styles
 ```
@@ -68,10 +67,9 @@ Pass the required props to the `FormBuilder` component, such as fields, initial 
 
 ```jsx
 <FormBuilder
-  fields={fields}
+  fields={CONTACT_FORM_FIELDS}
   initialValues={initialValues}
-  validationSchema={validationSchema}
-  onSubmit={(values) => console.log(values)}
+  onSubmit={handleOnSubmit}
 />
 ```
 
