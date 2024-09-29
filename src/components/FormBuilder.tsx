@@ -81,7 +81,7 @@ const FormBuilder = <T extends Record<string, any>>({
   ${
     enableDarkMode && isDarkMode
       ? "bg-gray-800 border-gray-600 text-gray-200 focus:ring-blue-500 focus:border-blue-400 focus:outline-none"
-      : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
+      : "bg-gray-50 border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
   }
   hover:border-gray-400
 `;
