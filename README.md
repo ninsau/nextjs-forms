@@ -161,6 +161,7 @@ The `FormBuilder` component accepts the following props:
 | validationSchema | Yup.ObjectSchema<any>           | No       | Optional Yup validation schema for form validation.                  |
 | onFileUpload     | (file: File) => Promise<string> | No       | Optional function to handle file uploads, returning a file URL.      |
 | styles           | CustomStyles                    | No       | Custom styles for overriding default form styles.                    |
+| enableDarkMode   | boolean                         | No       | Enable dark mode for the form.                                       |
 
 ### Custom Styling
 
