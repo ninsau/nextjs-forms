@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import * as Yup from "yup";
 import dynamic from "next/dynamic";
@@ -15,8 +15,22 @@ const FormBuilder = <T extends Record<string, any>>({
   validationSchema,
   onFileUpload,
   styles = {},
-}: FormBuilderProps<T>) => {
+  enableDarkMode = true,
+}: FormBuilderProps<T> & { enableDarkMode?: boolean }) => {
   const [loadingFields, setLoadingFields] = useState<string[]>([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (enableDarkMode) {
+      const matchMedia = window.matchMedia("(prefers-color-scheme: dark)");
+      setIsDarkMode(matchMedia.matches);
+      const handleChange = () => setIsDarkMode(matchMedia.matches);
+      matchMedia.addEventListener("change", handleChange);
+      return () => {
+        matchMedia.removeEventListener("change", handleChange);
+      };
+    }
+  }, [enableDarkMode]);
 
   // Generate validation schema if not provided
   const generatedValidationSchema = Yup.object().shape(
@@ -61,14 +75,16 @@ const FormBuilder = <T extends Record<string, any>>({
     [onFileUpload]
   );
 
+  // Base styles for light and dark modes
   const baseFieldStyles = `
     block w-full text-sm rounded-lg shadow-sm
-    bg-gray-50 dark:bg-gray-800 
-    border border-gray-300 dark:border-gray-600
-    text-gray-900 dark:text-gray-200
+    ${
+      enableDarkMode && isDarkMode
+        ? "bg-gray-800 border-gray-600 text-gray-200"
+        : "bg-gray-50 border-gray-300 text-gray-900"
+    }
     focus:ring-blue-500 focus:border-blue-500
-    transition duration-150 ease-in-out
-    py-2 px-3 leading-6
+    transition duration-150 ease-in-out py-2 px-3 leading-6
   `;
 
   const quillStyles = `
@@ -178,14 +194,22 @@ const FormBuilder = <T extends Record<string, any>>({
               name={field.name}
               className={
                 styles.checkbox ||
-                "focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded"
+                `focus:ring-blue-500 h-4 w-4 ${
+                  enableDarkMode && isDarkMode
+                    ? "text-gray-600 border-gray-300"
+                    : "text-blue-600 border-gray-300"
+                }`
               }
             />
             <label
               htmlFor={field.name}
               className={
                 styles.label ||
-                "ml-2 block text-sm text-gray-900 dark:text-gray-200"
+                `ml-2 block text-sm ${
+                  enableDarkMode && isDarkMode
+                    ? "text-gray-200"
+                    : "text-gray-900"
+                }`
               }
             >
               {field.label}
@@ -218,7 +242,11 @@ const FormBuilder = <T extends Record<string, any>>({
                   htmlFor={field.name}
                   className={
                     styles.label ||
-                    "block text-sm font-medium text-gray-700 dark:text-gray-200"
+                    `block text-sm font-medium ${
+                      enableDarkMode && isDarkMode
+                        ? "text-gray-200"
+                        : "text-gray-700"
+                    }`
                   }
                 >
                   {field.label}

@@ -33,6 +33,7 @@ export interface FormBuilderProps<T> {
   validationSchema?: Yup.ObjectSchema<any>;
   onFileUpload?: (file: File) => Promise<string>;
   styles?: CustomStyles;
+  enableDarkMode?: boolean;
 }
 
 export interface SelectFieldProps {
