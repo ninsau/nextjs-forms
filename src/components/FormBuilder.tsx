@@ -90,6 +90,7 @@ const FormBuilder = <T extends Record<string, any>>({
       background-color: inherit;
       color: inherit;
       border: inherit;
+      min-height: 15vh;
     }
   `;
 
@@ -139,7 +140,7 @@ const FormBuilder = <T extends Record<string, any>>({
                 theme="snow"
                 value={values[field.name] || ""}
                 onChange={(value) => setFieldValue(field.name, value)}
-                className={styles.richText || "ql-container h-64"}
+                className={styles.richText || "ql-container"}
               />
             </>
           );
